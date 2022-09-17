@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface ValutesApi {
     @GET("daily_json.js")
-    fun getValutes(): Call<InfoOfValutes>
+    suspend fun getValutes(): InfoOfValutes
 }
