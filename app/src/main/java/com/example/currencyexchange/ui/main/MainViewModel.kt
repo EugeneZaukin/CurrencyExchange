@@ -64,10 +64,27 @@ class MainViewModel @Inject constructor(
         if (_btnFavouritesState.value) return
         _btnPopularState.tryEmit(false)
         _btnFavouritesState.tryEmit(true)
+        getFavouritesValutes()
+    }
 
-        _valutesState.tryEmit(listOf())
-        _favouritesScreenState.tryEmit(true)
+    private fun getFavouritesValutes() {
+        viewModelScope.launch {
+            try {
+                val valutes = valutesDataBase.getValutes()
 
+                if (valutes.isEmpty()) {
+                    _valutesState.tryEmit(listOf())
+                    _favouritesScreenState.tryEmit(true)
+                    return@launch
+                }
+
+                val map = valutes.map { ValuteItem(it.idServer, it.charCode, it.name, it.value) }
+                _valutesState.tryEmit(map)
+                _favouritesScreenState.tryEmit(false)
+            } catch (e: Exception) {
+
+            }
+        }
     }
 
     fun onValuteClick(valute: ValuteItem) {
