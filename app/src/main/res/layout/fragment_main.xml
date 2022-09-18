@@ -47,7 +47,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_popular"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
@@ -61,7 +61,7 @@
         app:strokeColor="@color/teal_200"
         app:strokeWidth="4dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_favourites"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"

@@ -1,11 +1,17 @@
 package com.example.currencyexchange.ui.main
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.*
 import android.view.*
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.currencyexchange.R
 import com.example.currencyexchange.appComponent
 import com.example.currencyexchange.databinding.FragmentMainBinding
 import com.example.currencyexchange.ui.main.adapters.ValuteAdapter
+import com.google.android.material.button.MaterialButton
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -25,7 +31,33 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvValutes.adapter = adapter
-
+        initButtonsListener()
+        initFlows()
         viewModel.getValutes()
+    }
+
+    private fun initButtonsListener() {
+        with(binding) {
+            btnPopular.setOnClickListener { viewModel.onClickPopular() }
+            btnFavourites.setOnClickListener { viewModel.onClickFavourites() }
+        }
+    }
+
+    private fun initFlows() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.btnPopularState.collect { isButtonChecked(it, binding.btnPopular) }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.btnFavouritesState.collect { isButtonChecked(it, binding.btnFavourites) }
+        }
+    }
+
+    private fun isButtonChecked(isChecked: Boolean, view: MaterialButton) {
+        val color = ContextCompat.getColor(requireContext(), R.color.teal_200)
+        if (isChecked)
+            view.strokeColor = ColorStateList.valueOf(color)
+        else
+            view.strokeColor = ColorStateList.valueOf(Color.BLACK)
     }
 }
