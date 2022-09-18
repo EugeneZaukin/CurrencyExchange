@@ -57,7 +57,9 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.valutesState.collect(adapter::setValutes)
+            viewModel.valutesState.collect {
+                adapter.setValutesAndListener(it, viewModel::onValuteClick)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

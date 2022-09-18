@@ -4,8 +4,7 @@ import androidx.room.*
 
 @Entity(tableName = "Valute")
 data class ValuteDB(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey
     val idServer: String,
     val charCode:String,
     val name: String,

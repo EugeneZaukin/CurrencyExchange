@@ -8,7 +8,7 @@ import com.example.currencyexchange.domain.model.ValuteItem
 class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHolder(valuteBinding.root) {
     private val binding = valuteBinding
 
-    fun bind(valueItem: ValuteItem) {
+    fun bind(valueItem: ValuteItem, listener: ((ValuteItem) -> Unit)?) {
         with(binding) {
             tvValuteName.text = root.resources.getString(
                 R.string.full_name_valute_item,
@@ -16,6 +16,7 @@ class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHold
                 valueItem.name
             )
             tvValuteValue.text = valueItem.value.toString()
+            binding.ibFavouriteValute.setOnClickListener { listener?.invoke(valueItem) }
         }
     }
 }

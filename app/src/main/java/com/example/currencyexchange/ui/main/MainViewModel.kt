@@ -2,6 +2,7 @@ package com.example.currencyexchange.ui.main
 
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.dataBaseRepository.ValutesDataBaseRepository
+import com.example.currencyexchange.data.model.ValuteDB
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
 import com.example.currencyexchange.domain.model.ValuteItem
 import com.example.currencyexchange.utils.roundToTwoCharacters
@@ -67,5 +68,22 @@ class MainViewModel @Inject constructor(
         _valutesState.tryEmit(listOf())
         _favouritesScreenState.tryEmit(true)
 
+    }
+
+    fun onValuteClick(valute: ValuteItem) {
+        val valuteDB = ValuteDB(
+            idServer = valute.id,
+            name = valute.name,
+            charCode = valute.charCode,
+            value = valute.value
+        )
+
+        viewModelScope.launch {
+            try {
+                valutesDataBase.insertValute(valuteDB)
+            } catch (e: Exception) {
+
+            }
+        }
     }
 }

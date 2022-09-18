@@ -8,9 +8,11 @@ import com.example.currencyexchange.domain.model.ValuteItem
 
 class ValuteAdapter(private val context: Context) : RecyclerView.Adapter<ValuteViewHolder>() {
     private var valutes: List<ValuteItem> = listOf()
+    private var valuteListener: ((ValuteItem) -> Unit)? = null
 
-    fun setValutes(list: List<ValuteItem>) {
+    fun setValutesAndListener(list: List<ValuteItem>, listener: (ValuteItem) -> Unit) {
         valutes = list
+        valuteListener = listener
         notifyDataSetChanged()
     }
 
@@ -21,7 +23,7 @@ class ValuteAdapter(private val context: Context) : RecyclerView.Adapter<ValuteV
 
     override fun onBindViewHolder(holder: ValuteViewHolder, position: Int) {
         val valuteItem = valutes[position]
-        holder.bind(valuteItem)
+        holder.bind(valuteItem, valuteListener)
     }
 
     override fun getItemCount(): Int = valutes.size
