@@ -2,10 +2,9 @@ package com.example.currencyexchange.ui.main
 
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.dataBaseRepository.ValutesDataBaseRepository
-import com.example.currencyexchange.data.model.ValuteDB
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
 import com.example.currencyexchange.domain.model.ValuteItem
-import com.example.currencyexchange.utils.roundToTwoCharacters
+import com.example.currencyexchange.utils.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
@@ -38,16 +37,12 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkRepository.getValutes()
-                val valutesFromDb = withContext(this.coroutineContext) { getFavouritesValutes() }
+                val idsFromDB = withContext(this.coroutineContext) { getFavouritesValutes() }
+                    .map { it.id }
 
                 val valutesMap = valutes.valutes.values.map { valute ->
-                    ValuteItem(
-                        valute.id,
-                        valute.charCode,
-                        valute.name,
-                        valute.value.roundToTwoCharacters(),
-                        valutesFromDb.map { it.id }.contains(valute.id)
-                    )
+                    val isFavourite = idsFromDB.contains(valute.id)
+                    valute.toValuteItem(isFavourite)
                 }
 
                 _valutesState.tryEmit(valutesMap)
@@ -92,23 +87,16 @@ class MainViewModel @Inject constructor(
                 if (valutes.isEmpty())
                     listOf()
                 else
-                    valutes.map { ValuteItem(it.idServer, it.charCode, it.name, it.value, true) }
+                    valutes.map { it.toFavouriteValuteItem() }
             } catch (e: Exception) {
                 listOf()
             }
         }
 
     fun onValuteClick(valute: ValuteItem) {
-        val valuteDB = ValuteDB(
-            idServer = valute.id,
-            name = valute.name,
-            charCode = valute.charCode,
-            value = valute.value
-        )
-
         viewModelScope.launch {
             try {
-                valutesDataBase.insertValute(valuteDB)
+                valutesDataBase.insertValute(valute.toValuteDB())
             } catch (e: Exception) {
 
             }
