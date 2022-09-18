@@ -1,6 +1,7 @@
 package com.example.currencyexchange.ui.main.adapters
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.currencyexchange.R
 import com.example.currencyexchange.databinding.ValuteItemBinding
 import com.example.currencyexchange.domain.model.ValuteItem
 
@@ -9,7 +10,11 @@ class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHold
 
     fun bind(valueItem: ValuteItem) {
         with(binding) {
-            tvValuteName.text = valueItem.charCode
+            tvValuteName.text = root.resources.getString(
+                R.string.full_name_valute_item,
+                valueItem.charCode,
+                valueItem.name
+            )
             tvValuteValue.text = valueItem.value.toString()
         }
     }

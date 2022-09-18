@@ -3,6 +3,7 @@ package com.example.currencyexchange.ui.main
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
 import com.example.currencyexchange.domain.model.ValuteItem
+import com.example.currencyexchange.utils.roundToTwoCharacters
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
@@ -36,7 +37,7 @@ class MainViewModel @Inject constructor(
                 val valutes = networkRepository.getValutes()
 
                 val valutesMap = valutes.valutes.values.map {
-                    ValuteItem(it.id, it.charCode, it.name, it.value)
+                    ValuteItem(it.id, it.charCode, it.name, it.value.roundToTwoCharacters())
                 }
 
                 _valutesState.tryEmit(valutesMap)

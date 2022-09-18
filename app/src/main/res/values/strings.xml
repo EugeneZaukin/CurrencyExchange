@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CurrencyExchange</string>
+    <string name="full_name_valute_item">%s %s</string>
 </resources>
