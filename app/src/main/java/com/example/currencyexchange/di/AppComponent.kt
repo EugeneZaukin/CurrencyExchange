@@ -1,10 +1,12 @@
 package com.example.currencyexchange.di
 
 import android.content.Context
+import com.example.currencyexchange.ui.main.MainViewModelFactory
 import dagger.*
 
 @Component
 interface AppComponent {
+    fun mainViewModelFactory(): MainViewModelFactory
 
     @Component.Builder
     interface Builder {

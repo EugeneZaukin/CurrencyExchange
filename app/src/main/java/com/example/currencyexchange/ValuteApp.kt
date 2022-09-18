@@ -1,6 +1,7 @@
 package com.example.currencyexchange
 
 import android.app.Application
+import android.content.Context
 import com.example.currencyexchange.di.AppComponent
 import com.example.currencyexchange.di.DaggerAppComponent
 
@@ -15,3 +16,9 @@ class ValuteApp : Application() {
             .build()
     }
 }
+
+val Context.appComponent: AppComponent
+    get() = when(this) {
+        is ValuteApp -> appComponent
+        else -> this.applicationContext.appComponent
+    }
