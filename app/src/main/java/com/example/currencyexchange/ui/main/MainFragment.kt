@@ -5,10 +5,13 @@ import androidx.fragment.app.*
 import android.view.*
 import com.example.currencyexchange.appComponent
 import com.example.currencyexchange.databinding.FragmentMainBinding
+import com.example.currencyexchange.ui.main.adapters.ValuteAdapter
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val adapter by lazy { ValuteAdapter(requireContext()) }
 
     private val viewModel by viewModels<MainViewModel> {
         requireContext().appComponent.mainViewModelFactory()
@@ -21,6 +24,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvValutes.adapter = adapter
 
         viewModel.getValutes()
     }
