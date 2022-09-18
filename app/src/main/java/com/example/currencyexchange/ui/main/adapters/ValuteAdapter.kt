@@ -13,8 +13,9 @@ class ValuteAdapter(private val context: Context) : RecyclerView.Adapter<ValuteV
     fun setValutesAndListener(list: List<ValuteItem>, listener: (ValuteItem) -> Unit) {
         valutes = list
         valuteListener = listener
-        notifyDataSetChanged()
     }
+
+    fun getValutes(): List<ValuteItem> = valutes
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ValuteViewHolder {
         val binding = ValuteItemBinding.inflate(LayoutInflater.from(context), parent, false)

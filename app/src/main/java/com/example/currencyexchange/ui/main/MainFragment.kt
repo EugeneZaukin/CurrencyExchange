@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
 import com.example.currencyexchange.R
 import com.example.currencyexchange.appComponent
 import com.example.currencyexchange.databinding.FragmentMainBinding
-import com.example.currencyexchange.ui.main.adapters.ValuteAdapter
+import com.example.currencyexchange.domain.model.ValuteItem
+import com.example.currencyexchange.ui.main.adapters.*
 import com.google.android.material.button.MaterialButton
 
 private const val ERROR_MESSAGE = "Error network"
@@ -35,6 +37,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvLayout.rvValutes.adapter = adapter
+        binding.rvLayout.rvValutes.itemAnimator = null
         initButtonsListener()
         initFlows()
     }
@@ -56,9 +59,7 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.valutesState.collect {
-                adapter.setValutesAndListener(it, viewModel::onValuteClick)
-            }
+            viewModel.valutesState.collect(::addToRecyclerValutes)
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -82,5 +83,13 @@ class MainFragment : Fragment() {
             view.strokeColor = ColorStateList.valueOf(color)
         else
             view.strokeColor = ColorStateList.valueOf(Color.BLACK)
+    }
+
+    private fun addToRecyclerValutes(list: List<ValuteItem>) {
+        val diffUtilCallBack = DiffUtilCallBack(adapter.getValutes(), list)
+        val calculateDiff = DiffUtil.calculateDiff(diffUtilCallBack)
+
+        adapter.setValutesAndListener(list, viewModel::onValuteClick)
+        calculateDiff.dispatchUpdatesTo(adapter)
     }
 }
