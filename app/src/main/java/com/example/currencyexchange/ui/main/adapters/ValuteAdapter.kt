@@ -11,6 +11,7 @@ class ValuteAdapter(private val context: Context) : RecyclerView.Adapter<ValuteV
 
     fun setValutes(list: List<ValuteItem>) {
         valutes = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ValuteViewHolder {

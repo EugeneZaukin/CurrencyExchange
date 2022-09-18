@@ -56,6 +56,10 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.valutesState.collect(adapter::setValutes)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorLoad.collect {
                 Toast.makeText(requireContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
             }

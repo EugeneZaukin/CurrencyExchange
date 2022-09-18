@@ -2,6 +2,7 @@ package com.example.currencyexchange.ui.main
 
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
+import com.example.currencyexchange.domain.model.ValuteItem
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
@@ -16,6 +17,9 @@ class MainViewModel @Inject constructor(
     private val _btnFavouritesState = MutableStateFlow(false)
     val btnFavouritesState get() = _btnFavouritesState.asStateFlow()
 
+    private val _valutesState = MutableStateFlow(listOf<ValuteItem>())
+    val valutesState get() = _valutesState.asStateFlow()
+
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
@@ -24,6 +28,11 @@ class MainViewModel @Inject constructor(
             try {
                 val valutes = networkRepository.getValutes()
 
+                val valutesMap = valutes.valutes.values.map {
+                    ValuteItem(it.id, it.charCode, it.name, it.value)
+                }
+
+                _valutesState.tryEmit(valutesMap)
             } catch (e: Exception) {
                 _errorLoad.tryEmit(true)
             }

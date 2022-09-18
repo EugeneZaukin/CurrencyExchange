@@ -9,7 +9,7 @@ class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHold
 
     fun bind(valueItem: ValuteItem) {
         with(binding) {
-            tvValuteName.text = valueItem.name
+            tvValuteName.text = valueItem.charCode
             tvValuteValue.text = valueItem.value.toString()
         }
     }
