@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.*
 import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.currencyexchange.R
@@ -12,6 +13,8 @@ import com.example.currencyexchange.appComponent
 import com.example.currencyexchange.databinding.FragmentMainBinding
 import com.example.currencyexchange.ui.main.adapters.ValuteAdapter
 import com.google.android.material.button.MaterialButton
+
+private const val ERROR_MESSAGE = "Error network"
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -50,6 +53,12 @@ class MainFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.btnFavouritesState.collect { isButtonChecked(it, binding.btnFavourites) }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.errorLoad.collect {
+                Toast.makeText(requireContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
