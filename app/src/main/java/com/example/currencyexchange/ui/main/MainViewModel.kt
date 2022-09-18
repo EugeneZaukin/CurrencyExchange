@@ -1,16 +1,18 @@
 package com.example.currencyexchange.ui.main
 
 import androidx.lifecycle.*
-import com.example.currencyexchange.data.networkRepository.NetworkRepositoryImpl
+import com.example.currencyexchange.data.networkRepository.NetworkRepository
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
     fun getValutes() {
-        val networkRepositoryImpl = NetworkRepositoryImpl()
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val valutes = networkRepositoryImpl.getValutes()
+                val valutes = networkRepository.getValutes()
 
             } catch (e: Exception) {
 

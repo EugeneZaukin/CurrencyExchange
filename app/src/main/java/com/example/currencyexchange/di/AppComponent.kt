@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.currencyexchange.ui.main.MainViewModelFactory
 import dagger.*
 
-@Component
+@Component(modules = [NetworkModule::class])
 interface AppComponent {
     fun mainViewModelFactory(): MainViewModelFactory
 
