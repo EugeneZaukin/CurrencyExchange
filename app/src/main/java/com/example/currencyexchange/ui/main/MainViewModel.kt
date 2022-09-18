@@ -38,9 +38,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkRepository.getValutes()
+                val valutesFromDb = withContext(this.coroutineContext) { getFavouritesValutes() }
 
-                val valutesMap = valutes.valutes.values.map {
-                    ValuteItem(it.id, it.charCode, it.name, it.value.roundToTwoCharacters(), false)
+                val valutesMap = valutes.valutes.values.map { valute ->
+                    ValuteItem(
+                        valute.id,
+                        valute.charCode,
+                        valute.name,
+                        valute.value.roundToTwoCharacters(),
+                        valutesFromDb.map { it.id }.contains(valute.id)
+                    )
                 }
 
                 _valutesState.tryEmit(valutesMap)
