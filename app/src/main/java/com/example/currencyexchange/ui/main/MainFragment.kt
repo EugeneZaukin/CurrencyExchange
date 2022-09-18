@@ -37,7 +37,6 @@ class MainFragment : Fragment() {
         binding.rvLayout.rvValutes.adapter = adapter
         initButtonsListener()
         initFlows()
-        viewModel.getValutes()
     }
 
     private fun initButtonsListener() {

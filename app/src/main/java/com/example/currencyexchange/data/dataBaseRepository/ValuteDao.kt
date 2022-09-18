@@ -8,6 +8,9 @@ interface ValuteDao {
     @Query("SELECT * FROM Valute")
     suspend fun getValutes(): List<ValuteDB>
 
+    @Query("SELECT idServer FROM Valute WHERE idServer == :id")
+    suspend fun getFavouriteId(id: String): String
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertValute(valuteDB: ValuteDB)
 

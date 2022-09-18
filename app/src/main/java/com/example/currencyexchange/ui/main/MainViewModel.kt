@@ -32,13 +32,16 @@ class MainViewModel @Inject constructor(
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
-    fun getValutes() {
+    init {
+        emitPopularValutes()
+    }
+
+    private fun emitPopularValutes() {
         _loadingState.tryEmit(true)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkRepository.getValutes()
-                val idsFromDB = withContext(this.coroutineContext) { getFavouritesValutes() }
-                    .map { it.id }
+                val idsFromDB = getFavouritesValutes().map { it.id }
 
                 val valutesMap = valutes.valutes.values.map { valute ->
                     val isFavourite = idsFromDB.contains(valute.id)
@@ -54,20 +57,22 @@ class MainViewModel @Inject constructor(
     }
 
     fun onClickPopular() {
-        if (_btnPopularState.value) return
+        if (btnPopularState.value) return
         _btnPopularState.tryEmit(true)
         _btnFavouritesState.tryEmit(false)
-
-        getValutes()
+        emitPopularValutes()
         _favouritesScreenState.tryEmit(false)
     }
 
     fun onClickFavourites() {
-        if (_btnFavouritesState.value) return
+        if (btnFavouritesState.value) return
         _btnPopularState.tryEmit(false)
         _btnFavouritesState.tryEmit(true)
+        emitFavouritesValutes()
+    }
 
-        viewModelScope.launch {
+    private fun emitFavouritesValutes() {
+        viewModelScope.launch(Dispatchers.IO) {
             val valutes = getFavouritesValutes()
 
             if (valutes.isEmpty()) {
@@ -81,25 +86,66 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun getFavouritesValutes(): List<ValuteItem> =
-        withContext(Dispatchers.IO) {
-            try {
-                val valutes = valutesDataBase.getValutes()
-                if (valutes.isEmpty())
-                    listOf()
-                else
-                    valutes.map { it.toFavouriteValuteItem() }
-            } catch (e: Exception) {
+        try {
+            val valutes = valutesDataBase.getValutes()
+            if (valutes.isEmpty())
                 listOf()
-            }
+            else
+                valutes.map { it.toFavouriteValuteItem() }
+        } catch (e: Exception) {
+            listOf()
         }
 
     fun onValuteClick(valute: ValuteItem) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                valutesDataBase.insertValute(valute.toValuteDB())
+                val id = getFavouriteId(valute.id)
+                if (id == null || id.isEmpty())
+                    addToFavourites(valute)
+                else
+                    deleteFromFavourites(valute)
             } catch (e: Exception) {
 
             }
         }
+    }
+
+    private suspend fun getFavouriteId(id: String): String? =
+        try {
+            valutesDataBase.getFavouriteId(id)
+        } catch (e: Exception) {
+            null
+        }
+
+    private suspend fun addToFavourites(valute: ValuteItem) {
+        try {
+            valutesDataBase.insertValute(valute.toValuteDB())
+            updatePopularList(valute, true)
+        } catch (e: Exception) {
+
+        }
+    }
+
+    private suspend fun deleteFromFavourites(valute: ValuteItem) {
+        try {
+            valutesDataBase.deleteValute(valute.toValuteDB())
+
+            if (btnFavouritesState.value)
+                emitFavouritesValutes()
+            else
+                updatePopularList(valute, false)
+        } catch (e: Exception) {
+
+        }
+    }
+
+    private fun updatePopularList(valute: ValuteItem, isFavourites: Boolean) {
+        val updateList = valutesState.value.map {
+            if (it.id == valute.id)
+                it.copy(isFavourite = isFavourites)
+            else
+                it
+        }
+        _valutesState.tryEmit(updateList)
     }
 }
