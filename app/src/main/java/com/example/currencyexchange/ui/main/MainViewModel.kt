@@ -20,10 +20,14 @@ class MainViewModel @Inject constructor(
     private val _valutesState = MutableStateFlow(listOf<ValuteItem>())
     val valutesState get() = _valutesState.asStateFlow()
 
+    private val _loadingState = MutableStateFlow(true)
+    val loadingState get() = _loadingState.asStateFlow()
+
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
     fun getValutes() {
+        _loadingState.tryEmit(true)
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkRepository.getValutes()
@@ -33,6 +37,7 @@ class MainViewModel @Inject constructor(
                 }
 
                 _valutesState.tryEmit(valutesMap)
+                _loadingState.tryEmit(false)
             } catch (e: Exception) {
                 _errorLoad.tryEmit(true)
             }

@@ -7,6 +7,7 @@ import androidx.fragment.app.*
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.currencyexchange.R
 import com.example.currencyexchange.appComponent
@@ -33,7 +34,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvValutes.adapter = adapter
+        binding.rvLayout.rvValutes.adapter = adapter
         initButtonsListener()
         initFlows()
         viewModel.getValutes()
@@ -57,6 +58,10 @@ class MainFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.valutesState.collect(adapter::setValutes)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.loadingState.collect { binding.rvLayout.loadingValutes.isVisible = it }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
