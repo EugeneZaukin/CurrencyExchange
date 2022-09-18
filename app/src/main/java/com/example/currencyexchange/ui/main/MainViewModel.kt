@@ -40,7 +40,7 @@ class MainViewModel @Inject constructor(
                 val valutes = networkRepository.getValutes()
 
                 val valutesMap = valutes.valutes.values.map {
-                    ValuteItem(it.id, it.charCode, it.name, it.value.roundToTwoCharacters())
+                    ValuteItem(it.id, it.charCode, it.name, it.value.roundToTwoCharacters(), false)
                 }
 
                 _valutesState.tryEmit(valutesMap)
@@ -64,28 +64,32 @@ class MainViewModel @Inject constructor(
         if (_btnFavouritesState.value) return
         _btnPopularState.tryEmit(false)
         _btnFavouritesState.tryEmit(true)
-        getFavouritesValutes()
-    }
 
-    private fun getFavouritesValutes() {
         viewModelScope.launch {
-            try {
-                val valutes = valutesDataBase.getValutes()
+            val valutes = getFavouritesValutes()
 
-                if (valutes.isEmpty()) {
-                    _valutesState.tryEmit(listOf())
-                    _favouritesScreenState.tryEmit(true)
-                    return@launch
-                }
-
-                val map = valutes.map { ValuteItem(it.idServer, it.charCode, it.name, it.value) }
-                _valutesState.tryEmit(map)
-                _favouritesScreenState.tryEmit(false)
-            } catch (e: Exception) {
-
+            if (valutes.isEmpty()) {
+                _valutesState.tryEmit(listOf())
+                _favouritesScreenState.tryEmit(true)
+                return@launch
             }
+            _valutesState.tryEmit(valutes)
+            _favouritesScreenState.tryEmit(false)
         }
     }
+
+    private suspend fun getFavouritesValutes(): List<ValuteItem> =
+        withContext(Dispatchers.IO) {
+            try {
+                val valutes = valutesDataBase.getValutes()
+                if (valutes.isEmpty())
+                    listOf()
+                else
+                    valutes.map { ValuteItem(it.idServer, it.charCode, it.name, it.value, true) }
+            } catch (e: Exception) {
+                listOf()
+            }
+        }
 
     fun onValuteClick(valute: ValuteItem) {
         val valuteDB = ValuteDB(

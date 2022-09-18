@@ -18,5 +18,15 @@ class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHold
             tvValuteValue.text = valueItem.value.toString()
             binding.ibFavouriteValute.setOnClickListener { listener?.invoke(valueItem) }
         }
+        updateFavouriteIcon(valueItem.isFavourite)
+    }
+
+    private fun updateFavouriteIcon(isFavourite: Boolean) {
+        with(binding.ibFavouriteValute) {
+            if (isFavourite)
+                setImageResource(android.R.drawable.btn_star_big_on)
+            else
+                setImageResource(android.R.drawable.btn_star_big_off)
+        }
     }
 }

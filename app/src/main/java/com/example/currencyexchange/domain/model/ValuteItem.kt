@@ -4,5 +4,6 @@ data class ValuteItem(
     val id: String,
     val charCode:String,
     val name: String,
-    val value: Double
+    val value: Double,
+    val isFavourite: Boolean
 )
