@@ -19,7 +19,4 @@ class NetworkModule {
 
     @Provides
     fun api(retrofit: Retrofit): ValutesApi = retrofit.create(ValutesApi::class.java)
-
-    @Provides
-    fun provideNetworkRepository(api: ValutesApi): NetworkRepository = NetworkRepositoryImpl(api)
 }

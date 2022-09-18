@@ -1,6 +1,7 @@
 package com.example.currencyexchange.ui.main
 
 import androidx.lifecycle.*
+import com.example.currencyexchange.data.dataBaseRepository.ValutesDataBaseRepository
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
 import com.example.currencyexchange.domain.model.ValuteItem
 import com.example.currencyexchange.utils.roundToTwoCharacters
@@ -10,7 +11,8 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val networkRepository: NetworkRepository
+    private val networkRepository: NetworkRepository,
+    private val valutesDataBase: ValutesDataBaseRepository
 ) : ViewModel() {
     private val _btnPopularState = MutableStateFlow(true)
     val btnPopularState get() = _btnPopularState.asStateFlow()
