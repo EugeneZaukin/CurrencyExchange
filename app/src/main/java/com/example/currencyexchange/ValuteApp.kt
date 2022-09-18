@@ -2,8 +2,7 @@ package com.example.currencyexchange
 
 import android.app.Application
 import android.content.Context
-import com.example.currencyexchange.di.AppComponent
-import com.example.currencyexchange.di.DaggerAppComponent
+import com.example.currencyexchange.di.*
 
 class ValuteApp : Application() {
     private lateinit var _appComponent: AppComponent
