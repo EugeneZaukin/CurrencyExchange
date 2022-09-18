@@ -23,6 +23,9 @@ class MainViewModel @Inject constructor(
     private val _loadingState = MutableStateFlow(true)
     val loadingState get() = _loadingState.asStateFlow()
 
+    private val _favouritesScreenState = MutableStateFlow(false)
+    val favouritesScreenState get() = _favouritesScreenState.asStateFlow()
+
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
@@ -48,12 +51,18 @@ class MainViewModel @Inject constructor(
         if (_btnPopularState.value) return
         _btnPopularState.tryEmit(true)
         _btnFavouritesState.tryEmit(false)
+
+        getValutes()
+        _favouritesScreenState.tryEmit(false)
     }
 
     fun onClickFavourites() {
         if (_btnFavouritesState.value) return
         _btnPopularState.tryEmit(false)
         _btnFavouritesState.tryEmit(true)
+
+        _valutesState.tryEmit(listOf())
+        _favouritesScreenState.tryEmit(true)
 
     }
 }

@@ -65,6 +65,10 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.favouritesScreenState.collect { binding.rvLayout.tvFavouritesEmpty.isVisible = it }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorLoad.collect {
                 Toast.makeText(requireContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
             }
