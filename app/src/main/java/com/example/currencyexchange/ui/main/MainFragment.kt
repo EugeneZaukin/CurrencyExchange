@@ -39,6 +39,7 @@ class MainFragment : Fragment() {
         binding.rvLayout.rvValutes.adapter = adapter
         binding.rvLayout.rvValutes.itemAnimator = null
         initButtonsListener()
+        initSortingSpinner()
         initFlows()
     }
 
@@ -47,6 +48,14 @@ class MainFragment : Fragment() {
             btnPopular.setOnClickListener { viewModel.onClickPopular() }
             btnFavourites.setOnClickListener { viewModel.onClickFavourites() }
         }
+    }
+
+    private fun initSortingSpinner() {
+        val sortSpinnerAdapter = SortSpinnerAdapter(
+            requireContext(),
+            resources.getStringArray(R.array.sorting_entities)
+        )
+        binding.sortSpinner.adapter = sortSpinnerAdapter
     }
 
     private fun initFlows() {
