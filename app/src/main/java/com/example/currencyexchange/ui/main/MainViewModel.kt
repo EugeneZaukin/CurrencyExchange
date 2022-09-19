@@ -56,6 +56,25 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onClickSort(position: Int) {
+        val valutes = _valutesState.value
+
+        val sortedList = when(position) {
+            0 -> valutes.shuffled()
+            1 -> {
+                val comparatorNameAsc = Comparator<ValuteItem> { v1, v2 -> v1.name.compareTo(v2.name) }
+                valutes.sortedWith(comparatorNameAsc)
+            }
+            2 -> {
+                val comparatorNameDesc = Comparator<ValuteItem> { v1, v2 -> v2.name.compareTo(v1.name) }
+                valutes.sortedWith(comparatorNameDesc)
+            }
+            else -> valutes.shuffled()
+        }
+
+        _valutesState.tryEmit(sortedList)
+    }
+
     fun onClickPopular() {
         if (btnPopularState.value) return
         _btnPopularState.tryEmit(true)

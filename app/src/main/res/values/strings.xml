@@ -3,7 +3,7 @@
     <string name="full_name_valute_item">%s %s</string>
 
     <string-array name="sorting_entities">
-        <item>Нет сортировки</item>
+        <item>В произвольном порядке</item>
         <item>Алфавит по возрастанию</item>
         <item>Алфавит по убыванию</item>
     </string-array>

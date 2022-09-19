@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.*
 import android.view.*
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -55,7 +56,16 @@ class MainFragment : Fragment() {
             requireContext(),
             resources.getStringArray(R.array.sorting_entities)
         )
-        binding.sortSpinner.adapter = sortSpinnerAdapter
+
+        with(binding.sortSpinner) {
+            adapter = sortSpinnerAdapter
+            onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    viewModel.onClickSort(p2)
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) { }
+            }
+        }
     }
 
     private fun initFlows() {
