@@ -6,5 +6,7 @@
         <item>В произвольном порядке</item>
         <item>Алфавит по возрастанию</item>
         <item>Алфавит по убыванию</item>
+        <item>По возрастанию валюты</item>
+        <item>По убыванию валюты</item>
     </string-array>
 </resources>

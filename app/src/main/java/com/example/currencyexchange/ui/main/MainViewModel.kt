@@ -62,12 +62,24 @@ class MainViewModel @Inject constructor(
         val sortedList = when(position) {
             0 -> valutes.shuffled()
             1 -> {
-                val comparatorNameAsc = Comparator<ValuteItem> { v1, v2 -> v1.name.compareTo(v2.name) }
+                val comparatorNameAsc =
+                    Comparator<ValuteItem> { v1, v2 -> v1.name.compareTo(v2.name) }
                 valutes.sortedWith(comparatorNameAsc)
             }
             2 -> {
-                val comparatorNameDesc = Comparator<ValuteItem> { v1, v2 -> v2.name.compareTo(v1.name) }
+                val comparatorNameDesc =
+                    Comparator<ValuteItem> { v1, v2 -> v2.name.compareTo(v1.name) }
                 valutes.sortedWith(comparatorNameDesc)
+            }
+            3 -> {
+                val comparatorValueAsc =
+                    Comparator<ValuteItem> { v1, v2 -> v1.value.compareTo(v2.value) }
+                valutes.sortedWith(comparatorValueAsc)
+            }
+            4 -> {
+                val comparatorValueDesc =
+                    Comparator<ValuteItem> { v1, v2 -> v2.value.compareTo(v1.value) }
+                valutes.sortedWith(comparatorValueDesc)
             }
             else -> valutes.shuffled()
         }
