@@ -58,33 +58,23 @@ class MainViewModel @Inject constructor(
 
     fun onClickSort(position: Int) {
         val valutes = _valutesState.value
+        val sortComparator = createSortComparator(position)
 
-        val sortedList = when(position) {
-            0 -> valutes.shuffled()
-            1 -> {
-                val comparatorNameAsc =
-                    Comparator<ValuteItem> { v1, v2 -> v1.name.compareTo(v2.name) }
-                valutes.sortedWith(comparatorNameAsc)
-            }
-            2 -> {
-                val comparatorNameDesc =
-                    Comparator<ValuteItem> { v1, v2 -> v2.name.compareTo(v1.name) }
-                valutes.sortedWith(comparatorNameDesc)
-            }
-            3 -> {
-                val comparatorValueAsc =
-                    Comparator<ValuteItem> { v1, v2 -> v1.value.compareTo(v2.value) }
-                valutes.sortedWith(comparatorValueAsc)
-            }
-            4 -> {
-                val comparatorValueDesc =
-                    Comparator<ValuteItem> { v1, v2 -> v2.value.compareTo(v1.value) }
-                valutes.sortedWith(comparatorValueDesc)
-            }
-            else -> valutes.shuffled()
-        }
+        val sortedList = if (sortComparator != null)
+            valutes.sortedWith(sortComparator)
+        else
+            valutes.shuffled()
 
         _valutesState.tryEmit(sortedList)
+    }
+
+    private fun createSortComparator(position: Int): Comparator<ValuteItem>? = when (position) {
+        0 -> null
+        1 -> Comparator { v1, v2 -> v1.name.compareTo(v2.name) }
+        2 -> Comparator { v1, v2 -> v2.name.compareTo(v1.name) }
+        3 -> Comparator { v1, v2 -> v1.value.compareTo(v2.value) }
+        4 -> Comparator { v1, v2 -> v2.value.compareTo(v1.value) }
+        else -> null
     }
 
     fun onClickPopular() {
