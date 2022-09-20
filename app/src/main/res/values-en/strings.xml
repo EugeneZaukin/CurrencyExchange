@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CurrencyExchange</string>
+    <string name="full_name_valute_item">%s %s</string>
+
+    <string name="favourite_empty_text">Favorites are empty. Add currencies from popular ones here.</string>
+    <string name="russian_valute_text">RUB Russian valute 1</string>
+    <string name="btn_popular_text">Popular</string>
+    <string name="btn_favourite_text">Favourites</string>
+
+    <string-array name="sorting_entities">
+        <item>In any order</item>
+        <item>Ascending alphabet</item>
+        <item>Descending alphabet</item>
+        <item>Ascending currency</item>
+        <item>Descending currency</item>
+    </string-array>
+</resources>

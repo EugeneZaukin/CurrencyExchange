@@ -19,7 +19,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:visibility="gone"
-        android:text="В избранном пусто. Добавьте сюда валюты из популярных"
+        android:text="@string/favourite_empty_text"
         android:textSize="20sp" />
 
     <ProgressBar
