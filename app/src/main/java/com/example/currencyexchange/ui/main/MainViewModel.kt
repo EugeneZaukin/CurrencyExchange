@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkUseCase().toMutableList()
-                valutes.add(ValuteItem("ru0000", "RUB", "Российский рубль", 1.0, false))
+                valutes.add(ValuteItem("ru0000", "RUB", "Российский рубль", 1, 1.0, false))
 
                 val idsFromDB = getFavouritesValutes().map { it.id }
 

@@ -9,15 +9,15 @@ fun Double.roundToTwoCharacters(): Double =
 
 fun ValuteItem.toValuteDB(): ValuteDB =
     this.run {
-        ValuteDB(id, charCode, name, value)
+        ValuteDB(id, charCode, name, nominal, value)
     }
 
 fun ValuteDB.toFavouriteValuteItem(): ValuteItem =
     this.run {
-        ValuteItem(idServer, charCode, name, value, true)
+        ValuteItem(idServer, charCode, name, nominal, value, true)
     }
 
 fun Valute.toValuteItem(isFavourite: Boolean = false): ValuteItem =
     this.run {
-        ValuteItem(id, charCode, name, value, isFavourite)
+        ValuteItem(id, charCode, name, nominal, value, isFavourite)
     }

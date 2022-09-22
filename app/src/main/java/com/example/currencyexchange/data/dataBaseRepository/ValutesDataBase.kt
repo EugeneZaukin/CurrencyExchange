@@ -9,6 +9,6 @@ abstract class ValutesDataBase : RoomDatabase() {
 
     companion object {
         const val NAME = "ValutesDB"
-        const val VERSION = 1
+        const val VERSION = 2
     }
 }

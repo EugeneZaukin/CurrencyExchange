@@ -8,5 +8,6 @@ data class ValuteDB(
     val idServer: String,
     val charCode:String,
     val name: String,
+    val nominal: Int,
     val value: Double
 )
