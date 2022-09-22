@@ -15,6 +15,9 @@ data class Valute(
     @SerializedName("Name")
     val name: String,
 
+    @SerializedName("Nominal")
+    val nominal: Int,
+
     @SerializedName("Value")
     val value: Double,
 
