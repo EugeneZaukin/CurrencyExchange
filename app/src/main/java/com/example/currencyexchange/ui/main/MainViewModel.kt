@@ -40,7 +40,9 @@ class MainViewModel @Inject constructor(
         _loadingState.tryEmit(true)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val valutes = networkUseCase()
+                val valutes = networkUseCase().toMutableList()
+                valutes.add(ValuteItem("ru0000", "RUB", "Российский рубль", 1.0, false))
+
                 val idsFromDB = getFavouritesValutes().map { it.id }
 
                 val valutesMap = valutes.map { valute ->

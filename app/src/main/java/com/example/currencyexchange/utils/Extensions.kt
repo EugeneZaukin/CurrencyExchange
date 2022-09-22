@@ -19,5 +19,5 @@ fun ValuteDB.toFavouriteValuteItem(): ValuteItem =
 
 fun Valute.toValuteItem(isFavourite: Boolean = false): ValuteItem =
     this.run {
-        ValuteItem(id, charCode, name, value.roundToTwoCharacters(), isFavourite)
+        ValuteItem(id, charCode, name, value, isFavourite)
     }

@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyexchange.R
 import com.example.currencyexchange.databinding.ValuteItemBinding
 import com.example.currencyexchange.domain.model.ValuteItem
+import com.example.currencyexchange.utils.roundToTwoCharacters
 
 class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHolder(valuteBinding.root) {
     private val binding = valuteBinding
@@ -15,7 +16,7 @@ class ValuteViewHolder(valuteBinding: ValuteItemBinding) : RecyclerView.ViewHold
                 valueItem.charCode,
                 valueItem.name
             )
-            tvValuteValue.text = valueItem.value.toString()
+            tvValuteValue.text = valueItem.value.roundToTwoCharacters().toString()
             binding.ibFavouriteValute.setOnClickListener { listener?.invoke(valueItem) }
         }
         updateFavouriteIcon(valueItem.isFavourite)
