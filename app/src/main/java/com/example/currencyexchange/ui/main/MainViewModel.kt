@@ -35,6 +35,8 @@ class MainViewModel @Inject constructor(
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
+    private var startValutesToRub: List<ValuteItem>? = null
+
     init {
         emitPopularValutes()
     }
@@ -56,6 +58,7 @@ class MainViewModel @Inject constructor(
                 _valutesState.tryEmit(valutesMap)
                 _choiceBlockValuteState.tryEmit(valutesMap)
                 _loadingState.tryEmit(false)
+                startValutesToRub = valutesMap
             } catch (e: Exception) {
                 _errorLoad.tryEmit(true)
             }
@@ -174,5 +177,11 @@ class MainViewModel @Inject constructor(
                 it
         }
         _valutesState.tryEmit(updateList)
+    }
+
+    fun onClickChoiceValute(value: Double) {
+        if (btnFavouritesState.value || startValutesToRub == null) return
+        val map = startValutesToRub!!.map { it.copy(value = it.value / value) }
+        _valutesState.tryEmit(map)
     }
 }

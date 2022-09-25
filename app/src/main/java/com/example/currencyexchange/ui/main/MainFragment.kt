@@ -41,6 +41,7 @@ class MainFragment : Fragment() {
         binding.rvLayout.rvValutes.itemAnimator = null
         initButtonsListener()
         initSortingSpinner()
+        initListenerChoiceBlockValute()
         initFlows()
     }
 
@@ -59,12 +60,21 @@ class MainFragment : Fragment() {
 
         with(binding.sortSpinner) {
             adapter = sortSpinnerAdapter
-            onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     viewModel.onClickSort(p2)
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) { }
             }
+        }
+    }
+
+    private fun initListenerChoiceBlockValute() {
+        binding.spinnerValuteBlock.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.onClickChoiceValute((p0?.selectedItem as ValuteItem).value)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
         }
     }
 
