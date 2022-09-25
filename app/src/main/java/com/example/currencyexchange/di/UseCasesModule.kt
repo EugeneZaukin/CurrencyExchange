@@ -1,8 +1,8 @@
 package com.example.currencyexchange.di
 
 import com.example.currencyexchange.data.networkRepository.NetworkRepository
-import com.example.currencyexchange.domain.model.usecases.GetValutesFromNetworkUseCase
-import com.example.currencyexchange.domain.model.usecases.GetValutesFromNetworkUseCaseImpl
+import com.example.currencyexchange.domain.usecases.GetValutesFromNetworkUseCase
+import com.example.currencyexchange.domain.usecases.GetValutesFromNetworkUseCaseImpl
 import dagger.Module
 import dagger.Provides
 

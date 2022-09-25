@@ -1,4 +1,4 @@
-package com.example.currencyexchange.domain.model.usecases
+package com.example.currencyexchange.domain.usecases
 
 import com.example.currencyexchange.domain.model.ValuteItem
 

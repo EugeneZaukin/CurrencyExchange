@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.dataBaseRepository.ValutesDataBaseRepository
 import com.example.currencyexchange.domain.model.ValuteItem
-import com.example.currencyexchange.domain.model.usecases.GetValutesFromNetworkUseCase
+import com.example.currencyexchange.domain.usecases.GetValutesFromNetworkUseCase
 import com.example.currencyexchange.utils.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
