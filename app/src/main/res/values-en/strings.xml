@@ -3,7 +3,6 @@
     <string name="full_name_valute_item">%s %s</string>
 
     <string name="favourite_empty_text">Favorites are empty. Add currencies from popular ones here.</string>
-    <string name="russian_valute_text">RUB Russian valute 1</string>
     <string name="btn_popular_text">Popular</string>
     <string name="btn_favourite_text">Favourites</string>
 
