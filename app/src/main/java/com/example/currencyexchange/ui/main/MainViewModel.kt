@@ -1,5 +1,6 @@
 package com.example.currencyexchange.ui.main
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.currencyexchange.data.dataBaseRepository.ValutesDataBaseRepository
 import com.example.currencyexchange.domain.model.ValuteItem
@@ -9,6 +10,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+
+private const val TAG = "MainViewModel"
 
 class MainViewModel @Inject constructor(
     private val networkUseCase: GetValutesFromNetworkUseCase,
@@ -135,7 +138,7 @@ class MainViewModel @Inject constructor(
                 else
                     deleteFromFavourites(valute)
             } catch (e: Exception) {
-
+                Log.e(TAG, e.stackTrace.toString())
             }
         }
     }
@@ -152,7 +155,7 @@ class MainViewModel @Inject constructor(
             valutesDataBase.insertValute(valute.toValuteDB())
             updatePopularList(valute, true)
         } catch (e: Exception) {
-
+            Log.e(TAG, e.stackTrace.toString())
         }
     }
 
@@ -165,7 +168,7 @@ class MainViewModel @Inject constructor(
             else
                 updatePopularList(valute, false)
         } catch (e: Exception) {
-
+            Log.e(TAG, e.stackTrace.toString())
         }
     }
 
