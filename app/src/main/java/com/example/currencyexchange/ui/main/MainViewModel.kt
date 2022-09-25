@@ -23,6 +23,9 @@ class MainViewModel @Inject constructor(
     private val _valutesState = MutableStateFlow(listOf<ValuteItem>())
     val valutesState get() = _valutesState.asStateFlow()
 
+    private val _choiceBlockValuteState = MutableStateFlow(listOf<ValuteItem>())
+    val choiceBlockValuteState get() = _choiceBlockValuteState.asStateFlow()
+
     private val _loadingState = MutableStateFlow(true)
     val loadingState get() = _loadingState.asStateFlow()
 
@@ -41,7 +44,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val valutes = networkUseCase().toMutableList()
-                valutes.add(ValuteItem("ru0000", "RUB", "Российский рубль", 1, 1.0, false))
+                valutes.add(0, ValuteItem("ru0000", "RUB", "Российский рубль", 1, 1.0, false))
 
                 val idsFromDB = getFavouritesValutes().map { it.id }
 
@@ -51,6 +54,7 @@ class MainViewModel @Inject constructor(
                 }
 
                 _valutesState.tryEmit(valutesMap)
+                _choiceBlockValuteState.tryEmit(valutesMap)
                 _loadingState.tryEmit(false)
             } catch (e: Exception) {
                 _errorLoad.tryEmit(true)

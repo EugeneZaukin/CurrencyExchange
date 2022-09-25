@@ -82,6 +82,10 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.choiceBlockValuteState.collect(::setValutesToChoiceBlock)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.loadingState.collect { binding.rvLayout.loadingValutes.isVisible = it }
         }
 
@@ -110,5 +114,14 @@ class MainFragment : Fragment() {
 
         adapter.setValutesAndListener(list, viewModel::onValuteClick)
         calculateDiff.dispatchUpdatesTo(adapter)
+    }
+
+    private fun setValutesToChoiceBlock(values: List<ValuteItem>) {
+        if (values.isEmpty()) return
+        val spinnerAdapter = ChoiceValuteSpinnerAdapter(requireContext(), values)
+        with(binding.spinnerValuteBlock) {
+            adapter = spinnerAdapter
+            isVisible = true
+        }
     }
 }

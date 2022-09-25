@@ -11,7 +11,7 @@ import com.example.currencyexchange.domain.model.ValuteItem
 private const val EMPTY_TEXT = ""
 private const val DEFAULT_NOMINAL = "1"
 
-class ValuteSpinnerAdapter(context: Context, values: List<ValuteItem>) : ArrayAdapter<ValuteItem>(context, 0, values) {
+class ChoiceValuteSpinnerAdapter(context: Context, values: List<ValuteItem>) : ArrayAdapter<ValuteItem>(context, 0, values) {
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val binding = SortSpinnerItemBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -30,7 +30,7 @@ class ValuteSpinnerAdapter(context: Context, values: List<ValuteItem>) : ArrayAd
         return context.resources.getString(
             R.string.full_name_valute_item,
             getDescriptionText(valute, isDropDownView),
-            DEFAULT_NOMINAL
+            if (isDropDownView) EMPTY_TEXT else DEFAULT_NOMINAL
         )
     }
 
