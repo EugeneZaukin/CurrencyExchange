@@ -92,7 +92,9 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.choiceBlockEnabled.collect { binding.spinnerValuteBlock.isEnabled = it }
+            viewModel.choiceBlockEnabled.collect { (isEnabled, position) ->
+                setEnableChoiceBlock(isEnabled, position)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -128,6 +130,13 @@ class MainFragment : Fragment() {
 
         adapter.setValutesAndListener(list, viewModel::onValuteClick)
         calculateDiff.dispatchUpdatesTo(adapter)
+    }
+
+    private fun setEnableChoiceBlock(isEnabled: Boolean, position: Int) {
+        with(binding.spinnerValuteBlock) {
+            this.isEnabled = isEnabled
+            setSelection(position)
+        }
     }
 
     private fun setValutesToChoiceBlock(values: List<ValuteItem>) {

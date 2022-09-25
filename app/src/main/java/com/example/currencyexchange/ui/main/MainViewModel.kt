@@ -29,7 +29,7 @@ class MainViewModel @Inject constructor(
     private val _choiceBlockValuteState = MutableStateFlow(listOf<ValuteItem>())
     val choiceBlockValuteState get() = _choiceBlockValuteState.asStateFlow()
 
-    private val _choiceBlockEnabled = MutableStateFlow(true)
+    private val _choiceBlockEnabled = MutableStateFlow(Pair(true, 0))
     val choiceBlockEnabled get() = _choiceBlockEnabled.asStateFlow()
 
     private val _loadingState = MutableStateFlow(true)
@@ -97,7 +97,7 @@ class MainViewModel @Inject constructor(
         _btnPopularState.tryEmit(true)
         _btnFavouritesState.tryEmit(false)
         _favouritesScreenState.tryEmit(false)
-        _choiceBlockEnabled.tryEmit(true)
+        _choiceBlockEnabled.tryEmit(true to 0)
         emitPopularValutes()
     }
 
@@ -105,7 +105,7 @@ class MainViewModel @Inject constructor(
         if (btnFavouritesState.value) return
         _btnPopularState.tryEmit(false)
         _btnFavouritesState.tryEmit(true)
-        _choiceBlockEnabled.tryEmit(false)
+        _choiceBlockEnabled.tryEmit(false to 0)
         emitFavouritesValutes()
     }
 
