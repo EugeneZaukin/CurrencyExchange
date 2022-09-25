@@ -41,6 +41,9 @@ class MainViewModel @Inject constructor(
     private val _errorLoad = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
     val errorLoad get() = _errorLoad.asSharedFlow()
 
+    private val _errorAddFavourite = MutableSharedFlow<Boolean>(0, 1, BufferOverflow.DROP_OLDEST)
+    val errorAddFavourite get() = _errorAddFavourite.asSharedFlow()
+
     private var startValutesToRub: List<ValuteItem>? = null
 
     init {
@@ -135,6 +138,11 @@ class MainViewModel @Inject constructor(
         }
 
     fun onValuteClick(valute: ValuteItem) {
+        if (startValutesToRub?.find { it.id == valute.id }?.value != valute.value) {
+            _errorAddFavourite.tryEmit(true)
+            return
+        }
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val id = getFavouriteId(valute.id)

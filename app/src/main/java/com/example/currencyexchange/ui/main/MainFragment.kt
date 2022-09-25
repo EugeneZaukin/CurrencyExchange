@@ -19,6 +19,7 @@ import com.example.currencyexchange.ui.main.adapters.*
 import com.google.android.material.button.MaterialButton
 
 private const val ERROR_MESSAGE = "Error network"
+private const val ERROR_ADD_FAVOURITE = "Добавлять/удалять в избранное можно только по отношению к рублю"
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -112,6 +113,12 @@ class MainFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorLoad.collect {
                 Toast.makeText(requireContext(), ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.errorAddFavourite.collect {
+                Toast.makeText(requireContext(), ERROR_ADD_FAVOURITE, Toast.LENGTH_SHORT).show()
             }
         }
     }
