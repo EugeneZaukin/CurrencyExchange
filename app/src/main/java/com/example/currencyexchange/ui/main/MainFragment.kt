@@ -92,6 +92,10 @@ class MainFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.choiceBlockEnabled.collect { binding.spinnerValuteBlock.isEnabled = it }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.choiceBlockValuteState.collect(::setValutesToChoiceBlock)
         }
 
