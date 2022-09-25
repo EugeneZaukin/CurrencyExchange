@@ -34,6 +34,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.example.currencyexchange'
 }
 
 dependencies {
@@ -43,7 +44,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
 
     //Lifecycle and ViewModel
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 
     //Kotlin coroutines
